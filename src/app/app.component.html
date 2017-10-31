@@ -1,3 +1,12 @@
 <h1>
   {{title}}
 </h1>
+<input type="text" #filter value="filter" />
+<input type="button" (click)="click$.next(filter)" />
+<div>
+  <ul>
+    <li *ngFor="let person of filteredlist$">
+      {{person}}
+    </li>
+  </ul>
+</div>
