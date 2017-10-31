@@ -4,6 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/Observable/of';
 import 'rxjs/add/Observable/combineLatest';
 import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/distinct';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: 'app-root',
@@ -23,12 +27,18 @@ export class AppComponent implements OnInit {
 
   click$: Subject<string> = new Subject<string>();
 
-  /*filteredList$: Observable<string[]> = Observable
-    .combineLatest(this.list$, this.click$.startWith(''), (list: string[], filter: string) =>
+  filter$ = this.click$
+  .filter(text => text.length >= 2) // Only if the text is longer than 2 characters
+  .debounceTime(100)
+  .distinctUntilChanged() // Only if the value has changed;
+  .startWith('');
+
+  filteredList$: Observable<string[]> = Observable
+    .combineLatest(this.list$, this.filter$, (list: string[], filter: string) =>
       list.filter(x => x.indexOf(filter) !== -1)
-    );*/
+    );
 
   ngOnInit() {
-    this.click$.subscribe(x => console.log(x));
+    this.filter$.subscribe(x => console.log(x));
   }
 }

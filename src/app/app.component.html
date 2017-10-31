@@ -1,11 +1,8 @@
-<h1>
-  {{title}}
-</h1>
-<!--input type="text" #filter />
-<input type="button" (click)="click$.next(filter.value)" value="filter" /-->
+
+<input type="text" (keyup)="click$.next(filter.value)" #filter />
 <div>
   <ul>
-    <li *ngFor="let person of list$ | async">
+    <li *ngFor="let person of filteredList$ | async">
       {{person}}
     </li>
   </ul>
